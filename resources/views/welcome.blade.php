@@ -19,6 +19,11 @@ integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1
                     <div class="card-header bg-info">
                          <h1 class="text-center">CURD using Livewire in Laravel</h1>
                     </div>
+                    @if (session()->has('message'))
+                        <div class="alert alert-success">
+                            {{ session('message') }}
+                        </div>
+                    @endif
                     <livewire:index/>
                 </div>
             </div>

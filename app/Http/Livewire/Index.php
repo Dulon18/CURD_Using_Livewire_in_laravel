@@ -4,9 +4,13 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Employee;
+use Livewire\WithFileUploads;
+
 class Index extends Component
 {
-    public $name, $email, $address, $phone,$image,$department,$salary;
+    use WithFileUploads;
+    public $name, $email, $address, $phone,$department,$salary;
+    public $image;
 
     public function render()
     {
@@ -15,8 +19,10 @@ class Index extends Component
     }
 
     public function saveData()
-    {
+    {      
 
+       $file= $this->image->store('photos','public');
+       
         Employee::create([
             'name'=>$this->name,
             'email'=>$this->email,
@@ -24,13 +30,21 @@ class Index extends Component
             'phone'=>$this->phone,
             'department'=>$this->department,
             'salary'=>$this->salary,
-
+            'image'=>$file
+       
         ]);
+  
         $this->resetInputFields();
     }
 
     function resetInputFields()
     {
         $this->reset(['name','email','address','phone','department','salary','image']);
+    }
+
+    public function deleteEmployee($id)
+    {
+        Employee::find($id)->delete();
+        session()->flash('message', 'Post Deleted Successfully.');
     }
 }
